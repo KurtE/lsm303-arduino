@@ -1,5 +1,6 @@
 #ifndef LSM303_h
 #define LSM303_h
+#include <Wire.h>
 
 #include <Arduino.h> // for byte data type
 
@@ -167,7 +168,7 @@ class LSM303
 
     byte last_status; // status of last I2C transmission
 
-    LSM303(void);
+    LSM303(TwoWire &WireD = Wire);
 
     bool init(deviceType device = device_auto, sa0State sa0 = sa0_auto);
     deviceType getDeviceType(void) { return _device; }
@@ -199,6 +200,7 @@ class LSM303
     static void vector_normalize(vector<float> *a);
 
   private:
+    TwoWire      &_WireD;      // Reference to which Wire Buss object we are using...
     deviceType _device; // chip type (D, DLHC, DLM, or DLH)
     byte acc_address;
     byte mag_address;
